@@ -1,0 +1,22 @@
+@startuml atlas-mcp-citations class diagram
+
+class CitationsServer {
+    +run() : None
+    +verify_citation(source_id: str, claim: str) : dict
+}
+
+class CitationVerifier {
+    -corpus_client : CorpusClient
+    +verify(source_id: str, claim: str) : dict
+}
+
+class CorpusClient {
+    -es_index : str
+    -qdrant_collection : str
+    +lookup(source_id: str) : str | None
+}
+
+CitationsServer --> CitationVerifier : uses
+CitationVerifier --> CorpusClient : uses
+
+@enduml
