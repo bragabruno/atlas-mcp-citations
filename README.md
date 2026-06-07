@@ -1,6 +1,6 @@
 # atlas-mcp-citations
 
-MCP server that verifies cited sources against the Atlas ingested corpus. Built with the official Python `mcp` SDK, Python 3.12 asyncio, and deployed as a standalone K8s service on AKS.
+MCP server that verifies cited sources against the Atlas ingested corpus. Built with the official Python `mcp` SDK (FastMCP server interface, Streamable HTTP transport), Python 3.12 asyncio, and deployed as a standalone K8s service on AKS.
 
 ## Tool Contract
 
