@@ -12,6 +12,6 @@ source scripts/lib/common.sh
 trap 'on_err "$LINENO" "$?"' ERR
 
 require_cmd python "pip install -e .[dev]"
-run "import smoke (app.server)" python -c "import app.server"
+run "import smoke (atlas_mcp_citations.server)" python -c "import atlas_mcp_citations.server"
 
 log_ok "build verification passed"

@@ -10,7 +10,7 @@ Bitbucket pipeline calls the same per-stage scripts. Cross-repo guide:
 | `lint.sh` | `make lint` | dep age audit (XCUT-4) + Trunk(ruff lint+format) + pyright (strict) |
 | `test.sh` | `make test` | offline unit tests (pytest; fake ES + Qdrant backends) |
 | `coverage.sh` | `make coverage` | pytest-cov gate (recommended; `ATLAS_COV_MIN`) |
-| `build.sh` | `make build` | MCP server import smoke (`app.server`) |
+| `build.sh` | `make build` | MCP server import smoke (`atlas_mcp_citations.server`) |
 | `docker.sh` | `make docker` | container build (multi-stage, non-root, pinned base) |
 | `infra.sh` | `make infra` | `helm lint` / `template` the `deploy/` chart |
 | `security.sh` | `make security` | secret / CVE / fs scans (advisory; `ATLAS_SECURITY_STRICT=1`) |

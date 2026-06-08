@@ -15,7 +15,7 @@ from __future__ import annotations
 from qdrant_client import AsyncQdrantClient
 from qdrant_client.http.models import FieldCondition, Filter, MatchValue, Record
 
-from app.domain import Chunk
+from atlas_mcp_citations.domain import Chunk
 
 _COLLECTION = "doc_chunks"
 

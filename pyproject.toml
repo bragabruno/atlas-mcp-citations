@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [tool.setuptools.packages.find]
-include = ["app*"]
+include = ["atlas_mcp_citations*"]
 
 [project.optional-dependencies]
 dev = [
@@ -21,6 +21,9 @@ dev = [
     "pytest-asyncio==1.3.0",
     "pyright==1.1.394",
 ]
+
+[project.scripts]
+atlas-mcp-citations = "atlas_mcp_citations.server:main"
 
 [build-system]
 requires = ["setuptools>=68"]
@@ -41,6 +44,6 @@ pythonpath = ["."]
 [tool.pyright]
 typeCheckingMode = "strict"
 pythonVersion = "3.12"
-include = ["app", "tests"]
+include = ["atlas_mcp_citations", "tests"]
 venvPath = "."
 venv = ".venv"

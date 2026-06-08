@@ -5,7 +5,7 @@ No live Elasticsearch or Qdrant required.
 
 from __future__ import annotations
 
-from app.domain import Chunk
+from atlas_mcp_citations.domain import Chunk
 
 
 class FakeESCorpusClient:
