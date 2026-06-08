@@ -28,4 +28,4 @@ EXPOSE 8000
 # reads ELASTICSEARCH_URL / QDRANT_URL from the env; credentials come from the
 # Key Vault CSI mount at deploy time (atlas-docs/04 §3). The image ships no
 # secrets. There is no console_script in pyproject, so run the module directly.
-CMD ["python", "-m", "app.server"]
+CMD ["python", "-m", "atlas_mcp_citations.server"]

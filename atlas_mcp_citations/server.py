@@ -10,8 +10,8 @@ from __future__ import annotations
 
 from mcp.server.fastmcp import FastMCP
 
-from app.citation_service import CitationService
-from app.protocols import ESCorpusClient, QdrantCorpusClient
+from atlas_mcp_citations.citation_service import CitationService
+from atlas_mcp_citations.protocols import ESCorpusClient, QdrantCorpusClient
 
 mcp: FastMCP = FastMCP(
     "atlas-mcp-citations",
@@ -69,14 +69,15 @@ async def verify_citation(source_id: str, claim: str) -> dict[str, object]:
     return {"exists": True, "snippet": chunk.text}
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """Console-script entry point — wires real backends and starts the server."""
     import os
 
     from elasticsearch import AsyncElasticsearch
     from qdrant_client import AsyncQdrantClient
 
-    from app.backends.es_corpus import ElasticsearchCorpusClient
-    from app.backends.qdrant_corpus import QdrantCorpusClient as QdrantCorpusBackend
+    from atlas_mcp_citations.backends.es_corpus import ElasticsearchCorpusClient
+    from atlas_mcp_citations.backends.qdrant_corpus import QdrantCorpusClient as QdrantCorpusBackend
 
     es_url = os.environ["ELASTICSEARCH_URL"]
     qdrant_url = os.environ["QDRANT_URL"]
@@ -87,3 +88,7 @@ if __name__ == "__main__":
     )
 
     mcp.run(transport="streamable-http")
+
+
+if __name__ == "__main__":
+    main()

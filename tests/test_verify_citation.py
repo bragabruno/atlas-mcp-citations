@@ -12,9 +12,9 @@ from __future__ import annotations
 
 import pytest
 
-from app.citation_service import CitationService
-from app.domain import Chunk
-from app.server import configure, verify_citation
+from atlas_mcp_citations.citation_service import CitationService
+from atlas_mcp_citations.domain import Chunk
+from atlas_mcp_citations.server import configure, verify_citation
 from tests.fakes import FakeESCorpusClient, FakeQdrantCorpusClient
 
 # ---------------------------------------------------------------------------

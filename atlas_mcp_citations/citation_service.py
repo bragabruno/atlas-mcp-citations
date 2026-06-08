@@ -6,8 +6,8 @@ Both backends are injected so offline tests use fakes.
 
 from __future__ import annotations
 
-from app.domain import Chunk
-from app.protocols import ESCorpusClient, QdrantCorpusClient
+from atlas_mcp_citations.domain import Chunk
+from atlas_mcp_citations.protocols import ESCorpusClient, QdrantCorpusClient
 
 
 class CitationService:

@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from elasticsearch import AsyncElasticsearch
 
-from app.domain import Chunk
+from atlas_mcp_citations.domain import Chunk
 
 _INDEX = "doc_chunks"
 

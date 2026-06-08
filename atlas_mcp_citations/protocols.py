@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from typing import Protocol, runtime_checkable
 
-from app.domain import Chunk
+from atlas_mcp_citations.domain import Chunk
 
 
 @runtime_checkable
