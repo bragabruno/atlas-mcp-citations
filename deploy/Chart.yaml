@@ -1,0 +1,23 @@
+apiVersion: v2
+name: atlas-mcp-citations
+description: >-
+  Atlas MCP citations server — verify_citation tool checks source_id existence
+  against the Atlas corpus (Elasticsearch + Qdrant), exposed over FastMCP
+  Streamable HTTP. Per atlas-docs/04 §4.2: probes, Key Vault CSI secrets,
+  Workload Identity, Argo Rollouts canary, Ingress for HTTP-exposed MCP endpoint.
+type: application
+# Chart version — bump on chart changes (independent of the app image tag).
+version: 0.1.0
+# Tracks the atlas-mcp-citations application version (pyproject [project].version).
+appVersion: "0.1.0"
+kubeVersion: ">=1.27.0-0"
+sources:
+  - https://github.com/atlas-platform/atlas-mcp-citations
+maintainers:
+  - name: Atlas Platform Engineering
+keywords:
+  - mcp
+  - citations
+  - elasticsearch
+  - qdrant
+  - argo-rollouts

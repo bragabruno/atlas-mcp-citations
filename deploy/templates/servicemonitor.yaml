@@ -1,0 +1,16 @@
+{{- if .Values.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "atlas-mcp-citations.fullname" . }}
+  labels:
+    {{- include "atlas-mcp-citations.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "atlas-mcp-citations.selectorLabels" . | nindent 6 }}
+  endpoints:
+    - port: http
+      path: {{ .Values.serviceMonitor.path }}
+      interval: {{ .Values.serviceMonitor.interval }}
+{{- end }}

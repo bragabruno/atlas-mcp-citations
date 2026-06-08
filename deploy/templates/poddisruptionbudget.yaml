@@ -1,0 +1,13 @@
+{{- if .Values.podDisruptionBudget.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "atlas-mcp-citations.fullname" . }}
+  labels:
+    {{- include "atlas-mcp-citations.labels" . | nindent 4 }}
+spec:
+  minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
+  selector:
+    matchLabels:
+      {{- include "atlas-mcp-citations.selectorLabels" . | nindent 6 }}
+{{- end }}

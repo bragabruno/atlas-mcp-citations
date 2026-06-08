@@ -1,0 +1,17 @@
+{{- if not .Values.canary.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "atlas-mcp-citations.fullname" . }}
+  labels:
+    {{- include "atlas-mcp-citations.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "atlas-mcp-citations.selectorLabels" . | nindent 6 }}
+  template:
+    {{- include "atlas-mcp-citations.podSpec" . | nindent 4 }}
+{{- end }}
