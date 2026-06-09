@@ -15,15 +15,15 @@ sequenceDiagram
     Server->>Verifier: verify(source_id, claim)
     Verifier->>Corpus: lookup(source_id)
 
-    par Elasticsearch lookup
-        Corpus->>ES: search(filter: source_id)
-        ES-->>Corpus: chunk or empty
-    and Qdrant lookup
+    Corpus->>ES: search(filter: source_id)
+    ES-->>Corpus: chunk or empty
+    alt ES hit (primary)
+        Corpus-->>Verifier: chunk
+    else ES miss → Qdrant fallback
         Corpus->>Qdrant: filter(payload.source_id = source_id)
-        Qdrant-->>Corpus: chunk or empty
+        Qdrant-->>Corpus: chunk or null
+        Corpus-->>Verifier: chunk or null
     end
-
-    Corpus-->>Verifier: first matching chunk (or null)
     Verifier-->>Server: {exists: bool, snippet: str | null}
     Server-->>PostGuardrail: {exists: bool, snippet: str | null}
 
