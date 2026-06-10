@@ -8,14 +8,23 @@ touching live services.
 
 from __future__ import annotations
 
+import os
+
 from mcp.server.fastmcp import FastMCP
 
 from atlas_mcp_citations.citation_service import CitationService
 from atlas_mcp_citations.protocols import ESCorpusClient, QdrantCorpusClient
 
+# Bind host/port from the env. FastMCP's own FASTMCP_HOST env var is not honored
+# in this SDK version (its default kwarg overrides it), so read it explicitly and
+# pass as a constructor kwarg (highest precedence). Default stays loopback for
+# bare local runs; the container image sets FASTMCP_HOST=0.0.0.0 so the published
+# port is reachable across the container boundary.
 mcp: FastMCP = FastMCP(
     "atlas-mcp-citations",
     instructions="Verify that a source_id exists in the Atlas ingested corpus.",
+    host=os.environ.get("FASTMCP_HOST", "127.0.0.1"),
+    port=int(os.environ.get("FASTMCP_PORT", "8000")),
 )
 
 # Module-level service — replaced by configure() before the server starts.
