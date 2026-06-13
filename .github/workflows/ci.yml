@@ -33,8 +33,10 @@ jobs:
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0 (2026-01-22)
         with:
           python-version: 3.12.13
-      - name: Install dev dependencies
-        run: pip install --quiet -e ".[dev]"
+      # `integration` extra is installed so pyright resolves testcontainers in
+      # tests/integration (those files are type-checked too, not just run).
+      - name: Install dev + integration dependencies
+        run: pip install --quiet -e ".[dev,integration]"
       # Trunk fetches its tools at runtime; cache them keyed on the pinned config.
       - name: Cache Trunk
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5 (2026-04-13)
@@ -60,6 +62,21 @@ jobs:
         run: pip install --quiet -e ".[dev]"
       - name: Unit tests
         run: ./scripts/test.sh
+
+  integration:
+    name: Gate 1c — Integration Tests (testcontainers, Docker)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2 (2026-01-09)
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0 (2026-01-22)
+        with:
+          python-version: 3.12.13
+      - name: Install dev + integration dependencies
+        run: pip install --quiet -e ".[dev,integration]"
+      # ubuntu-latest ships a running Docker daemon; testcontainers spins
+      # ephemeral Elasticsearch + Qdrant. Selects ONLY the integration marker.
+      - name: Integration tests
+        run: pytest -m integration
 
   diagrams:
     name: XCUT-6 — Diagram validation (scripts/validate_diagrams.sh)
