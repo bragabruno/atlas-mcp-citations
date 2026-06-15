@@ -85,6 +85,7 @@ def main() -> None:
     from elasticsearch import AsyncElasticsearch
     from qdrant_client import AsyncQdrantClient
 
+    from atlas_mcp_citations.auth import serve
     from atlas_mcp_citations.backends.es_corpus import ElasticsearchCorpusClient
     from atlas_mcp_citations.backends.qdrant_corpus import QdrantCorpusClient as QdrantCorpusBackend
 
@@ -96,7 +97,8 @@ def main() -> None:
         qdrant=QdrantCorpusBackend(AsyncQdrantClient(url=qdrant_url)),
     )
 
-    mcp.run(transport="streamable-http")
+    # BRA-883 — optional bearer auth (default-off via ATLAS_MCP_AUTH_TOKEN).
+    serve(mcp)
 
 
 if __name__ == "__main__":
