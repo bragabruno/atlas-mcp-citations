@@ -49,14 +49,21 @@ def authorized(headers: dict[bytes, bytes], token: str | None) -> bool:
 
     Returns:
         ``True`` if auth is disabled (``token`` is ``None``) or the request
-        carries the exact ``Authorization: Bearer <token>`` header.
+        carries an ``Authorization`` header whose scheme is ``Bearer``
+        (case-insensitive) and whose credentials match ``token``.
     """
     if token is None:
         return True
     provided = headers.get(b"authorization", b"").decode("latin-1")
-    expected = f"Bearer {token}"
-    # Constant-time compare to avoid leaking the token via timing.
-    return bool(provided) and hmac.compare_digest(provided, expected)
+    # Split into "<scheme> <credentials>"; tolerate a case-insensitive scheme and
+    # extra whitespace (RFC 7235), then constant-time compare the token only.
+    parts = provided.split(None, 1)
+    if len(parts) != 2:
+        return False
+    scheme, credentials = parts
+    if scheme.lower() != "bearer":
+        return False
+    return hmac.compare_digest(credentials, token)
 
 
 class BearerAuthMiddleware:
@@ -75,7 +82,7 @@ class BearerAuthMiddleware:
         if self.token is None or scope["type"] != "http":
             await self.app(scope, receive, send)
             return
-        headers = dict(scope["headers"])
+        headers = dict((k.lower(), v) for k, v in scope["headers"])
         if not authorized(headers, self.token):
             await PlainTextResponse(
                 "Unauthorized",
