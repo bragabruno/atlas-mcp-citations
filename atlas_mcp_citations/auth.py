@@ -77,7 +77,11 @@ class BearerAuthMiddleware:
             return
         headers = dict(scope["headers"])
         if not authorized(headers, self.token):
-            await PlainTextResponse("Unauthorized", status_code=401)(scope, receive, send)
+            await PlainTextResponse(
+                "Unauthorized",
+                status_code=401,
+                headers={"WWW-Authenticate": "Bearer"},
+            )(scope, receive, send)
             return
         await self.app(scope, receive, send)
 
